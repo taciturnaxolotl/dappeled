@@ -1,12 +1,12 @@
 <h3 align="center">
-    <img src="https://raw.githubusercontent.com/taciturnaxolotl/carriage/master/.github/images/carriage.webp" width="200" alt="Logo"/><br/>
+    <img src="https://raw.githubusercontent.com/taciturnaxolotl/dappeled/master/.github/images/dappeled.webp" width="200" alt="Logo"/><br/>
     <img src="https://raw.githubusercontent.com/taciturnaxolotl/carriage/master/.github/images/transparent.png" height="45" width="0px"/>
-    <span>$$\Large \text{Carriage}$$</span>
+    <span>Dappeled</span>
     <img src="https://raw.githubusercontent.com/taciturnaxolotl/carriage/master/.github/images/transparent.png" height="30" width="0px"/>
 </h3>
 
 <p align="center">
-    <i>A train carriage can be anything you want it to be and is a container for storing things so that seems like an appropriate name</i>
+    <i>Literally every single other tools either sucks, is ridiculously expensive, or both</i>
 </p>
 
 <p align="center">
@@ -15,11 +15,13 @@
 
 ## What's this?
 
-This is my personal template repo! It serves as the reference for my `README.md` formating style and hopefully soon my license scheme.
+It's the app I made because I was mad. More specifically its a website to move your spotify playlists and liked songs to apple music 100% free and self hostable.
 
-## Why that License?
+## Why AGPL 3.0?
 
-Well honestly i'm not quite sure myself. I've been currently looking into [Fair Source](https://fair.io/licenses/) licenses and the PolyForm [Small Business](https://polyformproject.org/licenses/small-business/1.0.0/) license to try and build a better default licensing scheme for my projects. As of now though I typically tend to use AGPL 3.0 as my default license. My main problem with it is that it doesn't provide a clear way for businesses to use the work commercially as most companies don't seem to want their proprietary modifications open source and public (for understandable reasons). Hopefully I can have a nice clear picture of how different licenses mash together and develop a nice clean system that continues to allow others to fork and modify my projects while giving me some kick back for large scale commercial use. Yes I know that isn't technically open source but it feels like a better way of balancing openness with commercialization.
+I want to realllllly make sure that this code stays free in all forms. One common misconception here though is that you can't download and run software licensed under the AGPL 3.0 without making your source code public. This is not true. You can run the software on your own server without making your source code public. The AGPL 3.0 only requires you to make your source code public if you are distributing the software to others (e.g. selling it, or making it available for download). If you are running the software on your own server for you and some friends or if you are running it unmodified for your company, you do not have to make your source code public. Just don't ever charge for this software. Ever.
+
+<img src="https://cachet.dunkirk.sh/emojis/kitty-gun/r" align="right" />
 
 <p align="center">
 	<img src="https://raw.githubusercontent.com/taciturnaxolotl/carriage/master/.github/images/line-break.svg" />
@@ -30,5 +32,5 @@ Well honestly i'm not quite sure myself. I've been currently looking into [Fair 
 </p>
 
 <p align="center">
-	<a href="https://github.com/taciturnaxolotl/carriage/blob/master/LICENSE.md"><img src="https://img.shields.io/static/v1.svg?style=for-the-badge&label=License&message=AGPL 3.0&logoColor=d9e0ee&colorA=363a4f&colorB=b7bdf8"/></a>
+	<a href="https://github.com/taciturnaxolotl/dappeled/blob/master/LICENSE.md"><img src="https://img.shields.io/static/v1.svg?style=for-the-badge&label=License&message=AGPL 3.0&logoColor=d9e0ee&colorA=363a4f&colorB=b7bdf8"/></a>
 </p>
