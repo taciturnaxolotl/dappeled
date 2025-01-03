@@ -25,6 +25,20 @@ a {
     transform: translateY(3px);
     transition: all 0s;
 }
+.button.disabled {
+    @apply bg-gray-400 text-gray-800;
+    box-shadow: none;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+.button.complete {
+    position: relative;
+    cursor: not-allowed;
+    pointer-events: none;
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.3);
+    transform: translateY(3px);
+    opacity: 0.7;
+}
 
 h1 {
     @apply text-4xl;

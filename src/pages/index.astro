@@ -27,28 +27,92 @@ import { Image } from "astro:assets";
         rel="noopener noreferrer"
         class="button"
         style={{ width: "22rem", marginBottom: "1rem" }}
-        onclick="if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) document.getElementById('buttonSound').play()"
+        id="spotifyButton"
     >
         <Image
             src={spotify}
             alt="Spotify logo"
             class="w-12 mr-2 align-middle"
         />
-        Sign in with Spotify
+        <span class="unchecked" style="transition: opacity 0.3s"
+            >Sign in with Spotify</span
+        >
+        <span class="checked" style="display: none; transition: opacity 0.3s"
+            >✓ Signed in with Spotify</span
+        >
     </a>
     <a
+        id="appleMusicButton"
         href="https://music.apple.com/us/login"
         target="_blank"
         rel="noopener noreferrer"
-        class="button"
+        class="button disabled"
         style={{ width: "22rem" }}
-        onclick="if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) document.getElementById('buttonSound').play()"
     >
         <Image
             src={appleMusic}
             alt="Apple Music logo"
             class="w-12 mr-2 align-middle"
         />
-        Sign in with Apple Music
+        <span class="unchecked">Sign in with Apple Music</span>
+        <span class="checked" style="display: none"
+            >✓ Signed in with Apple Music</span
+        >
     </a>
 </Layout>
+
+<script>
+    const handleButtonClick = (button: HTMLElement) => {
+        if (
+            button.id === "appleMusicButton" &&
+            button.classList.contains("disabled")
+        )
+            return;
+
+        const buttonSound = document.getElementById(
+            "buttonSound",
+        ) as HTMLAudioElement;
+        if (
+            !window.matchMedia("(prefers-reduced-motion: reduce)").matches &&
+            buttonSound
+        ) {
+            buttonSound.play();
+        }
+
+        button.classList.add("complete");
+        setTimeout(() => {
+            const unchecked = button.querySelector(".unchecked") as HTMLElement;
+            unchecked.style.opacity = "0";
+            setTimeout(() => {
+                unchecked.style.display = "none";
+                const checked = button.querySelector(".checked") as HTMLElement;
+                checked.style.display = "inline";
+                checked.style.opacity = "0";
+                setTimeout(() => {
+                    checked.style.opacity = "1";
+                    if (button.id === "spotifyButton") {
+                        const appleButton =
+                            document.getElementById("appleMusicButton");
+                        if (appleButton) {
+                            appleButton.classList.remove("disabled");
+                        }
+                    }
+                }, 50);
+            }, 300);
+        }, 500);
+    };
+
+    const spotifyButton = document.getElementById("spotifyButton");
+    if (spotifyButton) {
+        spotifyButton.addEventListener("click", function () {
+            handleButtonClick(this);
+        });
+    }
+
+    const appleMusicButton = document.getElementById("appleMusicButton");
+    if (appleMusicButton) {
+        appleMusicButton.addEventListener("click", function () {
+            handleButtonClick(this);
+        });
+    }
+</script>
