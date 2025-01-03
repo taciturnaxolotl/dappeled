@@ -27,13 +27,13 @@ const appleUser = Astro.cookies.get("apple_user")?.value;
         }}
     />
     <audio id="buttonSound" src={buttonPress}></audio>
-    <a
-        href="#"
+    <button
         class={`button ${spotifyUser ? "complete" : ""}`}
         style={{ width: "22rem", marginBottom: "1rem" }}
         id="spotifyButton"
         data-spotify-client-id={import.meta.env.SPOTIFY_CLIENT_ID}
         data-spotify-redirect-uri={import.meta.env.SPOTIFY_REDIRECT_URI}
+        disabled={spotifyUser}
     >
         <Image
             src={spotify}
@@ -43,16 +43,15 @@ const appleUser = Astro.cookies.get("apple_user")?.value;
         <span style="transition: opacity 0.3s">
             {spotifyUser ? "✓ Signed in with Spotify" : "Sign in with Spotify"}
         </span>
-    </a>
-    <a
+    </button>
+    <button
         id="appleMusicButton"
-        href="https://music.apple.com/us/login"
-        target="_blank"
-        rel="noopener noreferrer"
         class={`button ${spotifyToken ? "" : "disabled"} ${
             appleUser ? "complete" : ""
         }`}
         style={{ width: "22rem" }}
+        disabled={!spotifyToken || appleUser}
+        type="button"
     >
         <Image
             src={appleMusic}
@@ -66,22 +65,39 @@ const appleUser = Astro.cookies.get("apple_user")?.value;
                     : "Sign in with Apple Music"
             }
         </span>
-    </a>
+    </button>
 </Layout>
 
 <script>
     import { generateRandomString, sha256, base64encode } from "../utils/pkce";
 
-    const handleButtonClick = async (button: HTMLElement) => {
-        if (
-            button.id === "appleMusicButton" &&
-            button.classList.contains("disabled")
-        )
-            return;
-
+    const playButtonSound = (button: HTMLElement, callback: () => void) => {
         const buttonSound = document.getElementById(
             "buttonSound",
         ) as HTMLAudioElement;
+
+        if (
+            !window.matchMedia("(prefers-reduced-motion: reduce)").matches &&
+            buttonSound
+        ) {
+            buttonSound.addEventListener("ended", callback);
+            setTimeout(
+                () => {
+                    button.classList.remove("active");
+                    callback();
+                },
+                (buttonSound.duration * 1000) / 2,
+            );
+            buttonSound.play();
+        } else {
+            callback();
+        }
+    };
+
+    const handleButtonClick = async (button: HTMLElement) => {
+        if (button.getAttribute("disabled")) return;
+
+        button.classList.add("active");
 
         if (button.id === "spotifyButton") {
             const clientId = button.getAttribute("data-spotify-client-id");
@@ -108,49 +124,17 @@ const appleUser = Astro.cookies.get("apple_user")?.value;
 
             authUrl.search = new URLSearchParams(params).toString();
 
-            if (
-                !window.matchMedia("(prefers-reduced-motion: reduce)")
-                    .matches &&
-                buttonSound
-            ) {
-                buttonSound.addEventListener("ended", () => {
-                    window.location.href = authUrl.toString();
-                });
-                buttonSound.play();
-            } else {
+            playButtonSound(button, () => {
                 window.location.href = authUrl.toString();
-            }
+            });
             return;
         }
 
-        if (
-            !window.matchMedia("(prefers-reduced-motion: reduce)").matches &&
-            buttonSound
-        ) {
-            buttonSound.play();
+        if (button.id === "appleMusicButton") {
+            playButtonSound(button, () => {
+                window.open("https://music.apple.com/us/login", "_blank");
+            });
         }
-
-        button.classList.add("complete");
-        setTimeout(() => {
-            const unchecked = button.querySelector(".unchecked") as HTMLElement;
-            unchecked.style.opacity = "0";
-            setTimeout(() => {
-                unchecked.style.display = "none";
-                const checked = button.querySelector(".checked") as HTMLElement;
-                checked.style.display = "inline";
-                checked.style.opacity = "0";
-                setTimeout(() => {
-                    checked.style.opacity = "1";
-                    if (button.id === "spotifyButton") {
-                        const appleButton =
-                            document.getElementById("appleMusicButton");
-                        if (appleButton) {
-                            appleButton.classList.remove("disabled");
-                        }
-                    }
-                }, 50);
-            }, 300);
-        }, 500);
     };
 
     const spotifyButton = document.getElementById("spotifyButton");
