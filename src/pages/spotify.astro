@@ -139,13 +139,6 @@ if (user) {
                 <p id="redirect" style="padding: 1rem">
                     You are going to be redirected home in 3
                 </p>
-
-                <img
-                    src={user.images[0].url}
-                    alt={user.display_name}
-                    width={user.images[0].width}
-                    height={user.images[0].height}
-                />
             </>
         ) : (
             <p>Something went wrong. Please try again.</p>
@@ -154,14 +147,14 @@ if (user) {
 </Layout>
 
 <script>
-    let count = 3;
+    let count = 0.2;
     const redirect = document.getElementById("redirect");
     const interval = setInterval(() => {
-        count--;
-        redirect.textContent = `You are going to be redirected home in ${count}`;
-        if (count === 0) {
+        count -= 0.1;
+        redirect.textContent = `You are going to be redirected home in ${count.toFixed(1)}`;
+        if (count <= 0) {
             clearInterval(interval);
             window.location.href = "/";
         }
-    }, 1000);
+    }, 100);
 </script>
