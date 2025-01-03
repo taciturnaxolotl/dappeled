@@ -11,7 +11,19 @@ a {
 }
 
 .button {
-    @apply p-4 text-xl text-white bg-violet rounded-lg no-underline text-center shadow-lg transition-shadow duration-300 ease-in-out hover:shadow-2xl flex items-center justify-center;
+    @apply p-4 text-xl text-white bg-violet rounded-lg no-underline text-center flex items-center justify-center;
+    box-shadow: 0 4px 0 0 rgba(0, 0, 0, 0.3);
+    transition:
+        box-shadow 0.3s ease-in-out,
+        transform 0.1s ease-in-out;
+}
+.button:hover {
+    box-shadow: 0 6px 0 0 rgba(0, 0, 0, 0.3);
+}
+.button:active {
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.3);
+    transform: translateY(3px);
+    transition: all 0s;
 }
 
 h1 {

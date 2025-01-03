@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import spotify from "../assets/spotify.svg";
 import appleMusic from "../assets/apple-music.svg";
 import apple from "../assets/green-apple.svg";
+import buttonPress from "../assets/button-press.mp3";
 import { Image } from "astro:assets";
 ---
 
@@ -19,12 +20,14 @@ import { Image } from "astro:assets";
             height: "auto",
         }}
     />
+    <audio id="buttonSound" src={buttonPress}></audio>
     <a
         href="https://accounts.spotify.com/en/login"
         target="_blank"
         rel="noopener noreferrer"
         class="button"
         style={{ width: "22rem", marginBottom: "1rem" }}
+        onclick="if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) document.getElementById('buttonSound').play()"
     >
         <Image
             src={spotify}
@@ -39,6 +42,7 @@ import { Image } from "astro:assets";
         rel="noopener noreferrer"
         class="button"
         style={{ width: "22rem" }}
+        onclick="if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) document.getElementById('buttonSound').play()"
     >
         <Image
             src={appleMusic}
