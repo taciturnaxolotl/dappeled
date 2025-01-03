@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    font-family: Charter, "Bitstream Charter", "Sitka Text", Cambria, serif;
+}
+
+a {
+    @apply hover:bg-violet hover:text-white py-1 px-2 rounded;
+}
+
+.button {
+    @apply p-4 text-xl text-white bg-violet rounded-lg no-underline text-center shadow-lg transition-shadow duration-300 ease-in-out hover:shadow-2xl flex items-center justify-center;
+}
+
+h1 {
+    @apply text-4xl;
+}
+h2 {
+    @apply text-3xl;
+}
+h3 {
+    @apply text-2xl;
+}
+h4 {
+    @apply text-xl;
+}
+h5 {
+    @apply text-lg;
+}
+h6 {
+    @apply text-base;
+}

@@ -1,0 +1,41 @@
+---
+import "../tailwind.css";
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="generator" content={Astro.generator} />
+        <title>{Astro.props.title}</title>
+    </head>
+    <body
+        style="display: flex; flex-direction: column; min-height: 100vh;"
+        class="bg-snow text-darkWine"
+    >
+        <main
+            style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-bottom: 2.5rem;"
+        >
+            <slot />
+        </main>
+        <footer style="text-align: center; margin-bottom: 1rem;">
+            <p>
+                Made with much 🍏 by <a
+                    href="https://github.com/taciturnaxolotl"
+                    >@taciturnaxolotl</a
+                >
+            </p>
+        </footer>
+    </body>
+</html>
+
+<style>
+    html,
+    body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+    }
+</style>

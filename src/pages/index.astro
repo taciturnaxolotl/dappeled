@@ -1,0 +1,50 @@
+---
+import Layout from "../layouts/Layout.astro";
+import spotify from "../assets/spotify.svg";
+import appleMusic from "../assets/apple-music.svg";
+import apple from "../assets/green-apple.svg";
+import { Image } from "astro:assets";
+---
+
+<Layout title="Dappeled: Sucklessly emigrate from Spotify to Apple Music">
+    <h1 class="text-center">Welcome to Dappeled!</h1>
+    <Image
+        src={apple}
+        alt="green apple"
+        style={{
+            transform: "translateY(-1.3rem)",
+            marginBottom: "2rem",
+            maxWidth: "100%",
+            width: "30rem",
+            height: "auto",
+        }}
+    />
+    <a
+        href="https://accounts.spotify.com/en/login"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="button"
+        style={{ width: "22rem", marginBottom: "1rem" }}
+    >
+        <Image
+            src={spotify}
+            alt="Spotify logo"
+            class="w-12 mr-2 align-middle"
+        />
+        Sign in with Spotify
+    </a>
+    <a
+        href="https://music.apple.com/us/login"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="button"
+        style={{ width: "22rem" }}
+    >
+        <Image
+            src={appleMusic}
+            alt="Apple Music logo"
+            class="w-12 mr-2 align-middle"
+        />
+        Sign in with Apple Music
+    </a>
+</Layout>
