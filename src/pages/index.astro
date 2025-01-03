@@ -5,6 +5,12 @@ import appleMusic from "../assets/apple-music.svg";
 import apple from "../assets/green-apple.svg";
 import buttonPress from "../assets/button-press.mp3";
 import { Image } from "astro:assets";
+
+// check if the user is signed in to spotify
+const spotifyUser = Astro.cookies.get("spotify_user")?.value;
+const spotifyToken = Astro.cookies.get("spotify_access_token")?.value;
+
+const appleUser = Astro.cookies.get("apple_user")?.value;
 ---
 
 <Layout title="Dappeled: Sucklessly emigrate from Spotify to Apple Music">
@@ -22,31 +28,30 @@ import { Image } from "astro:assets";
     />
     <audio id="buttonSound" src={buttonPress}></audio>
     <a
-        href="https://accounts.spotify.com/en/login"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="button"
+        href="#"
+        class={`button ${spotifyUser ? "complete" : ""}`}
         style={{ width: "22rem", marginBottom: "1rem" }}
         id="spotifyButton"
+        data-spotify-client-id={import.meta.env.SPOTIFY_CLIENT_ID}
+        data-spotify-redirect-uri={import.meta.env.SPOTIFY_REDIRECT_URI}
     >
         <Image
             src={spotify}
             alt="Spotify logo"
             class="w-12 mr-2 align-middle"
         />
-        <span class="unchecked" style="transition: opacity 0.3s"
-            >Sign in with Spotify</span
-        >
-        <span class="checked" style="display: none; transition: opacity 0.3s"
-            >✓ Signed in with Spotify</span
-        >
+        <span style="transition: opacity 0.3s">
+            {spotifyUser ? "✓ Signed in with Spotify" : "Sign in with Spotify"}
+        </span>
     </a>
     <a
         id="appleMusicButton"
         href="https://music.apple.com/us/login"
         target="_blank"
         rel="noopener noreferrer"
-        class="button disabled"
+        class={`button ${spotifyToken ? "" : "disabled"} ${
+            appleUser ? "complete" : ""
+        }`}
         style={{ width: "22rem" }}
     >
         <Image
@@ -54,15 +59,20 @@ import { Image } from "astro:assets";
             alt="Apple Music logo"
             class="w-12 mr-2 align-middle"
         />
-        <span class="unchecked">Sign in with Apple Music</span>
-        <span class="checked" style="display: none"
-            >✓ Signed in with Apple Music</span
-        >
+        <span style="transition: opacity 0.3s">
+            {
+                appleUser
+                    ? "✓ Signed in with Apple Music"
+                    : "Sign in with Apple Music"
+            }
+        </span>
     </a>
 </Layout>
 
 <script>
-    const handleButtonClick = (button: HTMLElement) => {
+    import { generateRandomString, sha256, base64encode } from "../utils/pkce";
+
+    const handleButtonClick = async (button: HTMLElement) => {
         if (
             button.id === "appleMusicButton" &&
             button.classList.contains("disabled")
@@ -72,6 +82,47 @@ import { Image } from "astro:assets";
         const buttonSound = document.getElementById(
             "buttonSound",
         ) as HTMLAudioElement;
+
+        if (button.id === "spotifyButton") {
+            const clientId = button.getAttribute("data-spotify-client-id");
+            const redirectUri = button.getAttribute(
+                "data-spotify-redirect-uri",
+            );
+            const scope = "user-read-private user-read-email";
+            const authUrl = new URL("https://accounts.spotify.com/authorize");
+
+            const codeVerifier = generateRandomString(64);
+            const hashed = await sha256(codeVerifier);
+            const codeChallenge = base64encode(hashed);
+
+            document.cookie = `code_verifier=${codeVerifier}; path=/`;
+
+            const params: Record<string, string> = {
+                response_type: "code",
+                client_id: clientId || "",
+                scope,
+                code_challenge_method: "S256",
+                code_challenge: codeChallenge,
+                redirect_uri: redirectUri || "",
+            };
+
+            authUrl.search = new URLSearchParams(params).toString();
+
+            if (
+                !window.matchMedia("(prefers-reduced-motion: reduce)")
+                    .matches &&
+                buttonSound
+            ) {
+                buttonSound.addEventListener("ended", () => {
+                    window.location.href = authUrl.toString();
+                });
+                buttonSound.play();
+            } else {
+                window.location.href = authUrl.toString();
+            }
+            return;
+        }
+
         if (
             !window.matchMedia("(prefers-reduced-motion: reduce)").matches &&
             buttonSound

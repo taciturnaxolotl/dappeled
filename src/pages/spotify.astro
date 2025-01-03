@@ -1,0 +1,167 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+let user: {
+    country: string;
+    display_name: string;
+    email: string;
+    explicit_content: {
+        filter_enabled: boolean;
+        filter_locked: boolean;
+    };
+    external_urls: {
+        spotify: string;
+    };
+    followers: {
+        href: string;
+        total: number;
+    };
+    href: string;
+    id: string;
+    images: {
+        url: string;
+        height: number;
+        width: number;
+    }[];
+    product: string;
+    type: string;
+    uri: string;
+} | null = null;
+
+try {
+    const code = Astro.url.searchParams.get("code");
+
+    if (!code) {
+        // check if there is a valid token
+        const accessToken = Astro.cookies.get("spotify_access_token")?.value;
+        if (accessToken) {
+            const userResponse = await fetch("https://api.spotify.com/v1/me", {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            user = await userResponse.json();
+        } else {
+            throw new Error("No code found");
+        }
+    } else {
+        // Exchange code for token using PKCE
+        const codeVerifier = Astro.cookies.get("code_verifier")?.value;
+        if (codeVerifier === undefined) {
+            throw new Error("No code verifier found");
+        }
+
+        const spotifyUrl = "https://accounts.spotify.com/api/token";
+        const payload = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: new URLSearchParams({
+                grant_type: "authorization_code",
+                code: code,
+                redirect_uri: import.meta.env.SPOTIFY_REDIRECT_URI,
+                client_id: import.meta.env.SPOTIFY_CLIENT_ID,
+                code_verifier: codeVerifier,
+            }).toString(),
+        };
+
+        const response = await fetch(spotifyUrl, payload);
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error_description || "Something went wrong");
+        }
+
+        Astro.cookies.set("spotify_access_token", data.access_token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "strict",
+            maxAge: data.expires_in,
+        });
+
+        if (data.refresh_token) {
+            Astro.cookies.set("spotify_refresh_token", data.refresh_token, {
+                httpOnly: true,
+                secure: true,
+                sameSite: "strict",
+                maxAge: 30 * 24 * 60 * 60, // 30 days
+            });
+        }
+
+        // Clean up code verifier
+        Astro.cookies.delete("code_verifier");
+
+        const userResponse = await fetch("https://api.spotify.com/v1/me", {
+            headers: {
+                Authorization: `Bearer ${data.access_token}`,
+            },
+        });
+        user = await userResponse.json();
+    }
+} catch (error) {
+    console.error(error);
+    if (error instanceof Error) {
+        return new Response(JSON.stringify({ error: error.message }), {
+            status: 500,
+        });
+    }
+    return new Response(JSON.stringify({ error: "Something weird happened" }), {
+        status: 500,
+    });
+}
+
+if (user) {
+    Astro.cookies.set(
+        "spotify_user",
+        JSON.stringify({
+            displayName: user.display_name,
+            image: user.images[0].url,
+            id: user.id,
+        }),
+        {
+            httpOnly: true,
+            secure: true,
+            sameSite: "strict",
+            maxAge: 60 * 60, // 1 hour
+        },
+    );
+}
+---
+
+<Layout title="Spotify Redirect">
+    <h1 style="padding-bottom: 1rem;">Spotify Redirect</h1>
+    {
+        user ? (
+            <>
+                <h2>Welcome, {user.display_name}!</h2>
+
+                <p id="redirect" style="padding: 1rem">
+                    You are going to be redirected home in 3
+                </p>
+
+                <img
+                    src={user.images[0].url}
+                    alt={user.display_name}
+                    width={user.images[0].width}
+                    height={user.images[0].height}
+                />
+            </>
+        ) : (
+            <p>Something went wrong. Please try again.</p>
+        )
+    }
+</Layout>
+
+<script>
+    let count = 3;
+    const redirect = document.getElementById("redirect");
+    const interval = setInterval(() => {
+        count--;
+        redirect.textContent = `You are going to be redirected home in ${count}`;
+        if (count === 0) {
+            clearInterval(interval);
+            window.location.href = "/";
+        }
+    }, 1000);
+</script>
