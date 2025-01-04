@@ -4,6 +4,7 @@ import spotify from "../assets/spotify.svg";
 import appleMusic from "../assets/apple-music.svg";
 import apple from "../assets/green-apple.svg";
 import buttonPress from "../assets/button-press.mp3";
+import appleHello from "../assets/hello.mp3";
 import { Image } from "astro:assets";
 
 // check if the user is signed in to spotify
@@ -26,6 +27,7 @@ const appleUser = Astro.cookies.get("apple_user")?.value;
             height: "auto",
         }}
     />
+    <audio id="appleSound" src={appleHello}></audio>
     <audio id="buttonSound" src={buttonPress}></audio>
     <button
         class={`button ${spotifyUser ? "complete" : ""}`}
@@ -68,6 +70,24 @@ const appleUser = Astro.cookies.get("apple_user")?.value;
     </button>
 </Layout>
 
+<style>
+    @keyframes bounce {
+        0%,
+        100% {
+            transform: translateY(-1.3rem) rotate(0deg);
+        }
+        25% {
+            transform: translateY(-2.3rem) rotate(15deg);
+        }
+        50% {
+            transform: translateY(-2.3rem) rotate(-15deg);
+        }
+        75% {
+            transform: translateY(-2rem) rotate(10deg);
+        }
+    }
+</style>
+
 <script>
     import { generateRandomString, sha256, base64encode } from "../utils/pkce";
 
@@ -93,6 +113,31 @@ const appleUser = Astro.cookies.get("apple_user")?.value;
             callback();
         }
     };
+
+    // roughly every 15ish seconds with a bit of random play hello
+    const appleSound = document.getElementById(
+        "appleSound",
+    ) as HTMLAudioElement;
+    const appleSvg = document.querySelector(
+        "img[alt='green apple']",
+    ) as HTMLImageElement;
+
+    if (appleSound && appleSvg) {
+        appleSvg.style.cursor = "pointer";
+        appleSvg.addEventListener("click", () => {
+            appleSound.volume = 0.2;
+            appleSound.play();
+
+            appleSvg.style.animation = "bounce 0.5s ease";
+            appleSvg.addEventListener(
+                "animationend",
+                () => {
+                    appleSvg.style.animation = "";
+                },
+                { once: true },
+            );
+        });
+    }
 
     const handleButtonClick = async (button: HTMLElement) => {
         if (button.getAttribute("disabled")) return;
