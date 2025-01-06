@@ -14,7 +14,9 @@ const spotifyToken = Astro.cookies.get("spotify_access_token")?.value;
 const appleUser = Astro.cookies.get("apple_user")?.value;
 ---
 
-<Layout title="Dappeled: Sucklessly emigrate from Spotify to Apple Music">
+<Layout
+    title="Dappeled: The Spotify to Apple Music converter that won't make you cry 🍏"
+>
     <h1 class="text-center">Welcome to Dappeled!</h1>
     <Image
         src={apple}
