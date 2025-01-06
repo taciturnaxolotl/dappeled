@@ -12,6 +12,8 @@ export default {
         snow: "oklch(95.83% 0.0213 292.82)",
         thistle: "oklch(86.26% 0.0382 294.82)",
         disabledLightGray: "oklch(63.69% 0.0253 294.82)",
+        lightModeDisabledGray: "oklch(47.65% 0.0253 294.82)",
+        lightModeDisabledLightGray: "oklch(73.69% 0.0253 294.82)",
       },
     },
   },

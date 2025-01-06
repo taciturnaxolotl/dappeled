@@ -29,7 +29,7 @@ a {
     transition: all 0s;
 }
 .button.disabled {
-    @apply bg-disabledGray text-disabledLightGray;
+    @apply bg-lightModeDisabledGray dark:bg-disabledGray text-lightModeDisabledLightGray dark:text-disabledLightGray;
     box-shadow: none;
     cursor: not-allowed;
     pointer-events: none;
