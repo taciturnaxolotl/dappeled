@@ -4,10 +4,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        spotifyGreen: "#1ED760",
-        violet: "#57467B",
-        darkWine: "#231E34",
-        snow: "#FFFAFB",
+        spotifyGreen: "oklch(76.97% 0.2124 148.67)",
+        violet: "oklch(43.58% 0.087 297.45)",
+        disabledGray: "oklch(34.33% 0.0253 294.82)",
+        darkWine: "oklch(25.18% 0.0413 293.65)",
+        tingedDarkness: "oklch(23.8% 0.0382 294.82)",
+        snow: "oklch(95.83% 0.0213 292.82)",
+        thistle: "oklch(86.26% 0.0382 294.82)",
+        disabledLightGray: "oklch(63.69% 0.0253 294.82)",
       },
     },
   },

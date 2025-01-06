@@ -7,11 +7,11 @@ body {
 }
 
 a {
-    @apply hover:bg-violet hover:text-white py-1 px-2 rounded;
+    @apply hover:bg-violet hover:text-white py-[0.15rem] px-[0.3rem] mx-[0.15rem] rounded;
 }
 
 .button {
-    @apply p-4 text-xl text-white bg-violet rounded-lg no-underline text-center flex items-center justify-center;
+    @apply p-4 text-xl text-thistle bg-violet rounded-lg no-underline text-center flex items-center justify-center;
     box-shadow: 0 4px 0 0 rgba(0, 0, 0, 0.3);
     transition:
         box-shadow 0.3s ease-in-out,
@@ -29,10 +29,13 @@ a {
     transition: all 0s;
 }
 .button.disabled {
-    @apply bg-gray-400 text-gray-800;
+    @apply bg-disabledGray text-disabledLightGray;
     box-shadow: none;
     cursor: not-allowed;
     pointer-events: none;
+}
+button.disabled img {
+    opacity: 0.5;
 }
 .button.complete {
     position: relative;
