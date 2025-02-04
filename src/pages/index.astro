@@ -6,6 +6,7 @@ import apple from "../assets/green-apple.svg";
 import buttonPress from "../assets/button-press.mp3";
 import appleHello from "../assets/hello.mp3";
 import { Image } from "astro:assets";
+import { SPOTIFY_CLIENT_ID, SPOTIFY_REDIRECT_URI } from "astro:env/server";
 
 // check if the user is signed in to spotify
 const spotifyUser = Astro.cookies.get("spotify_user")?.value;
@@ -35,8 +36,8 @@ const appleUser = Astro.cookies.get("apple_user")?.value;
         class={`button ${spotifyUser ? "complete" : ""}`}
         style={{ width: "22rem", marginBottom: "1rem" }}
         id="spotifyButton"
-        data-spotify-client-id={import.meta.env.SPOTIFY_CLIENT_ID}
-        data-spotify-redirect-uri={import.meta.env.SPOTIFY_REDIRECT_URI}
+        data-spotify-client-id={SPOTIFY_CLIENT_ID}
+        data-spotify-redirect-uri={SPOTIFY_REDIRECT_URI}
         disabled={spotifyUser}
     >
         <Image
