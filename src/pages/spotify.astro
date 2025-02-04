@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { SPOTIFY_CLIENT_ID, SPOTIFY_REDIRECT_URI } from "astro:env/server";
 
 let user: {
     country: string;
@@ -60,8 +61,8 @@ try {
             body: new URLSearchParams({
                 grant_type: "authorization_code",
                 code: code,
-                redirect_uri: import.meta.env.SPOTIFY_REDIRECT_URI,
-                client_id: import.meta.env.SPOTIFY_CLIENT_ID,
+                redirect_uri: SPOTIFY_REDIRECT_URI,
+                client_id: SPOTIFY_CLIENT_ID,
                 code_verifier: codeVerifier,
             }).toString(),
         };
