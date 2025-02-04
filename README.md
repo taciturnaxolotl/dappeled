@@ -1,12 +1,21 @@
 <h3 align="center">
-    <img src="https://raw.githubusercontent.com/taciturnaxolotl/dappeled/master/src/assets/green-apple.svg" width="200" alt="Logo"/><br/>
+    <img src="https://raw.githubusercontent.com/taciturnaxolotl/dappled/master/src/assets/green-apple.svg" width="200" alt="Logo"/><br/>
     <img src="https://raw.githubusercontent.com/taciturnaxolotl/carriage/master/.github/images/transparent.png" height="45" width="0px"/>
-    <span>Dappeled</span>
+    <span>Dappled</span>
     <img src="https://raw.githubusercontent.com/taciturnaxolotl/carriage/master/.github/images/transparent.png" height="30" width="0px"/>
 </h3>
 
 <p align="center">
     <i>Literally every single other tools either sucks, is ridiculously expensive, or both</i>
+</p>
+
+<p align="center">
+	<img src="https://raw.githubusercontent.com/taciturnaxolotl/carriage/master/.github/images/line-break-thin.svg" />
+</p>
+
+
+<p align="center">
+	<img src="https://raw.githubusercontent.com/taciturnaxolotl/dappled/master/.github/images/website.webp" />
 </p>
 
 <p align="center">
@@ -30,5 +39,5 @@ I want to realllllly make sure that this code stays free in all forms. One commo
 </p>
 
 <p align="center">
-	<a href="https://github.com/taciturnaxolotl/dappeled/blob/master/LICENSE.md"><img src="https://img.shields.io/static/v1.svg?style=for-the-badge&label=License&message=AGPL 3.0&logoColor=d9e0ee&colorA=363a4f&colorB=b7bdf8"/></a>
+	<a href="https://github.com/taciturnaxolotl/dappled/blob/master/LICENSE.md"><img src="https://img.shields.io/static/v1.svg?style=for-the-badge&label=License&message=AGPL 3.0&logoColor=d9e0ee&colorA=363a4f&colorB=b7bdf8"/></a>
 </p>
