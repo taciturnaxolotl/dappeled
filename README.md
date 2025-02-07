@@ -24,6 +24,9 @@
 
 ## What's this?
 
+> [!CAUTION]
+> this project isn't functional yet; I broke my wrist in January 2025 and haven't been able to finish this yet. I will be finishing it, but it might be a month or two.
+
 It's the app I made because I was mad. More specifically its a website to move your spotify playlists and liked songs to apple music 100% free and self hostable.
 
 ## Why AGPL 3.0?
